@@ -1,0 +1,12 @@
+name: barbican-secrets-vault
+summary: OpenStack Barbican vault secrets backend
+maintainer: OpenStack Charmers <openstack-charmers@lists.ubuntu.com>
+description: OpenStack Barbican vault secrets backend
+tags:
+  - openstack
+series:
+  - bionic
+subordinate: true
+requires:
+  secrets-storage:
+    interface: vault-kv
