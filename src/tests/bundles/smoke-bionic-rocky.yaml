@@ -1,0 +1,43 @@
+series: bionic
+relations:
+- - keystone
+  - mysql
+- - vault
+  - mysql
+- - barbican
+  - mysql
+- - barbican
+  - keystone
+- - barbican
+  - rabbitmq-server
+- - barbican
+  - barbican-vault
+- - barbican-vault
+  - vault
+applications:
+  mysql:
+    charm: cs:~openstack-charmers-next/percona-cluster
+    num_units: 1
+  keystone:
+    charm: cs:~openstack-charmers-next/keystone
+    num_units: 1
+    options:
+      openstack-origin: cloud:bionic-rocky
+  barbican:
+    series: bionic
+    charm: cs:~openstack-charmers-next/barbican
+    num_units: 1
+    options:
+      openstack-origin: cloud:bionic-rocky/proposed
+  barbican-vault:
+    series: bionic
+    charm: barbican-vault
+    num_units: 0
+  rabbitmq-server:
+    charm: cs:~openstack-charmers-next/rabbitmq-server
+    num_units: 1
+  vault:
+    charm: cs:~openstack-charmers-next/vault
+    num_units: 1
+    options:
+      totally-unsecure-auto-unlock: True

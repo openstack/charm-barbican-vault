@@ -1,12 +1,19 @@
-name: barbican-secrets-vault
-summary: OpenStack Barbican vault secrets backend
+name: barbican-vault
+summary: OpenStack Barbican vault backend
 maintainer: OpenStack Charmers <openstack-charmers@lists.ubuntu.com>
-description: OpenStack Barbican vault secrets backend
+description: OpenStack Barbican vault backend
 tags:
   - openstack
 series:
   - bionic
 subordinate: true
+provides:
+  secrets:
+    interface: barbican-secrets
+    scope: container
 requires:
+  juju-info:
+    interface: juju-info
+    scope: container
   secrets-storage:
     interface: vault-kv
