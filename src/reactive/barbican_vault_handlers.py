@@ -18,6 +18,10 @@ import charms.reactive as reactive
 
 import charms_openstack.charm as charm
 
+# The charm class is not used by any handlers, but the import needs to be here
+# for ``charms.openstack`` to find the charm instance.
+import charm.openstack.barbican_vault as barbican_vault  # noqa
+
 # Use the charms.openstack defaults for common states and hooks
 charm.use_defaults(
     'charm.installed',
