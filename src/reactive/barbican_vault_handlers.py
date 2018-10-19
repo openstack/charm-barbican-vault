@@ -16,11 +16,10 @@ import charmhelpers.core as ch_core
 
 import charms.reactive as reactive
 
+import charms_openstack.bus
 import charms_openstack.charm as charm
 
-# The charm class is not used by any handlers, but the import needs to be here
-# for ``charms.openstack`` to find the charm instance.
-import charm.openstack.barbican_vault as barbican_vault  # noqa
+charms_openstack.bus.discover()
 
 # Use the charms.openstack defaults for common states and hooks
 charm.use_defaults(
@@ -38,7 +37,9 @@ def secret_backend_vault_request():
     ch_core.hookenv.log('Requesting access to vault ({})'
                         .format(secrets_storage.vault_url),
                         level=ch_core.hookenv.INFO)
-    secrets_storage.request_secret_backend('charm-barbican-vault')
+    with charm.provide_charm_instance() as barbican_vault_charm:
+        secrets_storage.request_secret_backend(
+            barbican_vault_charm.secret_backend_name)
 
 
 @reactive.when_all('endpoint.secrets.joined', 'secrets-storage.available')
@@ -46,12 +47,14 @@ def plugin_info_barbican_publish():
     barbican = reactive.endpoint_from_flag('endpoint.secrets.joined')
     secrets_storage = reactive.endpoint_from_flag(
         'secrets-storage.available')
-    vault_data = {
-        'approle_role_id': secrets_storage.unit_role_id,
-        'approle_secret_id': secrets_storage.unit_token,
-        'vault_url': secrets_storage.vault_url,
-        'use_ssl': 'false',  # XXX
-    }
-    ch_core.hookenv.log('Publishing vault plugin info to barbican',
-                        level=ch_core.hookenv.INFO)
-    barbican.publish_plugin_info('vault', vault_data)
+    with charm.provide_charm_instance() as barbican_vault_charm:
+        vault_data = {
+            'approle_role_id': secrets_storage.unit_role_id,
+            'approle_secret_id': secrets_storage.unit_token,
+            'vault_url': secrets_storage.vault_url,
+            'kv_mountpoint': barbican_vault_charm.secret_backend_name,
+            'use_ssl': 'false',  # XXX
+        }
+        ch_core.hookenv.log('Publishing vault plugin info to barbican',
+                            level=ch_core.hookenv.INFO)
+        barbican.publish_plugin_info('vault', vault_data)

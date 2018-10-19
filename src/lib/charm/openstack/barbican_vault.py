@@ -21,3 +21,8 @@ class BarbicanVaultCharm(charms_openstack.charm.OpenStackCharm):
     packages = ['python-castellan']
 
     adapters_class = charms_openstack.adapters.OpenStackRelationAdapters
+
+    @property
+    def secret_backend_name(self):
+        """Build secret backend name from name of the deployed charm."""
+        return 'charm-' + self.configuration_class().application_name
