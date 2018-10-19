@@ -11,13 +11,14 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 import charmhelpers.core as ch_core
 
 import charms.reactive as reactive
 
 import charms_openstack.bus
 import charms_openstack.charm as charm
+
+import charm.vault_utils as vault_utils
 
 charms_openstack.bus.discover()
 
@@ -39,7 +40,7 @@ def secret_backend_vault_request():
                         level=ch_core.hookenv.INFO)
     with charm.provide_charm_instance() as barbican_vault_charm:
         secrets_storage.request_secret_backend(
-            barbican_vault_charm.secret_backend_name)
+            barbican_vault_charm.secret_backend_name, isolated=False)
 
 
 @reactive.when_all('endpoint.secrets.joined', 'secrets-storage.available')
@@ -47,10 +48,16 @@ def plugin_info_barbican_publish():
     barbican = reactive.endpoint_from_flag('endpoint.secrets.joined')
     secrets_storage = reactive.endpoint_from_flag(
         'secrets-storage.available')
+    ch_core.hookenv.log('Retrieving secret-id from vault ({})'
+                        .format(secrets_storage.vault_url),
+                        level=ch_core.hookenv.INFO)
+    secret_id = vault_utils.retrieve_secret_id(
+        secrets_storage.vault_url,
+        secrets_storage.unit_token)
     with charm.provide_charm_instance() as barbican_vault_charm:
         vault_data = {
             'approle_role_id': secrets_storage.unit_role_id,
-            'approle_secret_id': secrets_storage.unit_token,
+            'approle_secret_id': secret_id,
             'vault_url': secrets_storage.vault_url,
             'kv_mountpoint': barbican_vault_charm.secret_backend_name,
             'use_ssl': 'false',  # XXX

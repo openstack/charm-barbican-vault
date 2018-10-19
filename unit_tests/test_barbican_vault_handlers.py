@@ -78,6 +78,7 @@ class TestBarbicanVaultHandlers(test_utils.PatchHelper):
         barbican = mock.MagicMock()
         secrets_storage = mock.MagicMock()
         self.endpoint_from_flag.side_effect = [barbican, secrets_storage]
+        self.patch_object(handlers.vault_utils, 'retrieve_secret_id')
 
         handlers.plugin_info_barbican_publish()
         self.endpoint_from_flag.assert_has_calls([
@@ -86,7 +87,7 @@ class TestBarbicanVaultHandlers(test_utils.PatchHelper):
         ])
         vault_data = {
             'approle_role_id': secrets_storage.unit_role_id,
-            'approle_secret_id': secrets_storage.unit_token,
+            'approle_secret_id': self.retrieve_secret_id(),
             'vault_url': secrets_storage.vault_url,
             'kv_mountpoint': barbican_vault_charm.secret_backend_name,
             'use_ssl': 'false',  # XXX
