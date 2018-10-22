@@ -32,7 +32,7 @@ class TestRegisteredHooks(test_utils.TestRegisteredHooks):
         hook_set = {
             'when': {
                 'secret_backend_vault_request': (
-                    'endpoint.secrets-storage.joined',),
+                    'secrets-storage.connected',),
             },
             'when_all': {
                 'plugin_info_barbican_publish': (
@@ -66,12 +66,15 @@ class TestBarbicanVaultHandlers(test_utils.PatchHelper):
         secrets_storage = mock.MagicMock()
         self.endpoint_from_flag.return_value = secrets_storage
         barbican_vault_charm.secret_backend_name = 'charm-barbican-vault'
+        self.patch_object(handlers.reactive, 'clear_flag')
 
         handlers.secret_backend_vault_request()
         self.endpoint_from_flag.assert_called_once_with(
-            'endpoint.secrets-storage.joined')
-        secrets_storage.request_secret_backend.assrt_called_once_with(
-            'charm-barbican-vault')
+            'secrets-storage.connected')
+        secrets_storage.request_secret_backend.assert_called_once_with(
+            'charm-barbican-vault', isolated=False)
+        self.clear_flag.assert_called_once_with(
+            'secrets-storage.connected')
 
     def test_plugin_info_barbican_publish(self):
         barbican_vault_charm = self.patch_charm()

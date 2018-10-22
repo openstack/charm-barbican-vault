@@ -30,17 +30,18 @@ charm.use_defaults(
 
 
 @reactive.when_not('secrets-storage.available')
-@reactive.when('endpoint.secrets-storage.joined')
+@reactive.when('secrets-storage.connected')
 def secret_backend_vault_request():
     """Request access to vault."""
     secrets_storage = reactive.endpoint_from_flag(
-        'endpoint.secrets-storage.joined')
+        'secrets-storage.connected')
     ch_core.hookenv.log('Requesting access to vault ({})'
                         .format(secrets_storage.vault_url),
                         level=ch_core.hookenv.INFO)
     with charm.provide_charm_instance() as barbican_vault_charm:
         secrets_storage.request_secret_backend(
             barbican_vault_charm.secret_backend_name, isolated=False)
+    reactive.clear_flag('secrets-storage.connected')
 
 
 @reactive.when_all('endpoint.secrets.joined', 'secrets-storage.available',
