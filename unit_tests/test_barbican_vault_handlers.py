@@ -95,8 +95,10 @@ class TestBarbicanVaultHandlers(test_utils.PatchHelper):
             'approle_secret_id': self.retrieve_secret_id(),
             'vault_url': secrets_storage.vault_url,
             'kv_mountpoint': barbican_vault_charm.secret_backend_name,
-            'use_ssl': 'false',  # XXX
+            'ssl_ca_crt_file': barbican_vault_charm.installed_ca_name,
         }
+        barbican_vault_charm.install_ca_cert.assert_called_once_with(
+            secrets_storage.vault_ca)
         barbican.publish_plugin_info.assert_called_once_with(
             'vault', vault_data)
         self.clear_flag.assert_called_once_with(

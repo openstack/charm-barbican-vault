@@ -50,20 +50,25 @@ def plugin_info_barbican_publish():
     barbican = reactive.endpoint_from_flag('endpoint.secrets.joined')
     secrets_storage = reactive.endpoint_from_flag(
         'secrets-storage.available')
-    ch_core.hookenv.log('Retrieving secret-id from vault ({})'
-                        .format(secrets_storage.vault_url),
-                        level=ch_core.hookenv.INFO)
-    secret_id = vault_utils.retrieve_secret_id(
-        secrets_storage.vault_url,
-        secrets_storage.unit_token)
     with charm.provide_charm_instance() as barbican_vault_charm:
+        if secrets_storage.vault_ca:
+            ch_core.hookenv.log('Installing vault CA certificate')
+            barbican_vault_charm.install_ca_cert(secrets_storage.vault_ca)
+        ch_core.hookenv.log('Retrieving secret-id from vault ({})'
+                            .format(secrets_storage.vault_url),
+                            level=ch_core.hookenv.INFO)
+        secret_id = vault_utils.retrieve_secret_id(
+            secrets_storage.vault_url,
+            secrets_storage.unit_token)
         vault_data = {
             'approle_role_id': secrets_storage.unit_role_id,
             'approle_secret_id': secret_id,
             'vault_url': secrets_storage.vault_url,
             'kv_mountpoint': barbican_vault_charm.secret_backend_name,
-            'use_ssl': 'false',  # XXX
         }
+        if barbican_vault_charm.installed_ca_name:
+            vault_data.update({
+                'ssl_ca_crt_file': barbican_vault_charm.installed_ca_name})
         ch_core.hookenv.log('Publishing vault plugin info to barbican',
                             level=ch_core.hookenv.INFO)
         barbican.publish_plugin_info('vault', vault_data)
