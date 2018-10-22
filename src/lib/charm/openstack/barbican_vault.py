@@ -17,9 +17,9 @@ import charms_openstack.charm
 
 class BarbicanVaultCharm(charms_openstack.charm.OpenStackCharm):
     release = 'rocky'
-
-    packages = ['python-castellan']
-
+    name = 'barbican-vault'
+    packages = ['python3-castellan']
+    python_version = 3
     adapters_class = charms_openstack.adapters.OpenStackRelationAdapters
 
     @property
