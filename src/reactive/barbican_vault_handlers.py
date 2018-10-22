@@ -43,7 +43,8 @@ def secret_backend_vault_request():
             barbican_vault_charm.secret_backend_name, isolated=False)
 
 
-@reactive.when_all('endpoint.secrets.joined', 'secrets-storage.available')
+@reactive.when_all('endpoint.secrets.joined', 'secrets-storage.available',
+                   'endpoint.secrets-storage.changed')
 def plugin_info_barbican_publish():
     barbican = reactive.endpoint_from_flag('endpoint.secrets.joined')
     secrets_storage = reactive.endpoint_from_flag(
@@ -65,3 +66,4 @@ def plugin_info_barbican_publish():
         ch_core.hookenv.log('Publishing vault plugin info to barbican',
                             level=ch_core.hookenv.INFO)
         barbican.publish_plugin_info('vault', vault_data)
+        reactive.clear_flag('endpoint.secrets-storage.changed')

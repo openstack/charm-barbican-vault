@@ -36,7 +36,8 @@ class TestRegisteredHooks(test_utils.TestRegisteredHooks):
             },
             'when_all': {
                 'plugin_info_barbican_publish': (
-                    'endpoint.secrets.joined', 'secrets-storage.available',),
+                    'endpoint.secrets.joined', 'secrets-storage.available',
+                    'endpoint.secrets-storage.changed',),
             },
             'when_not': {
                 'secret_backend_vault_request': (
