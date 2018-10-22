@@ -80,6 +80,7 @@ class TestBarbicanVaultHandlers(test_utils.PatchHelper):
         secrets_storage = mock.MagicMock()
         self.endpoint_from_flag.side_effect = [barbican, secrets_storage]
         self.patch_object(handlers.vault_utils, 'retrieve_secret_id')
+        self.patch_object(handlers.reactive, 'clear_flag')
 
         handlers.plugin_info_barbican_publish()
         self.endpoint_from_flag.assert_has_calls([
@@ -95,3 +96,5 @@ class TestBarbicanVaultHandlers(test_utils.PatchHelper):
         }
         barbican.publish_plugin_info.assert_called_once_with(
             'vault', vault_data)
+        self.clear_flag.assert_called_once_with(
+            'endpoint.secrets-storage.changed')
