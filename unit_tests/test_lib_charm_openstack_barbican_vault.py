@@ -30,14 +30,12 @@ class TestBarbicanVaultCharm(Helper):
     def test_install_ca_cert(self):
         b = barbican_vault.BarbicanVaultCharm()
         self.patch('charmhelpers.core.host.install_ca_cert', 'install_ca_cert')
-        self.patch('base64.b64decode', 'b64decode')
         cc = mock.MagicMock()
         b.configuration_class = cc
         b.install_ca_cert('data')
         b.configuration_class.assert_called_once_with()
-        self.b64decode.assert_called_once_with('data')
         self.install_ca_cert.assert_called_once_with(
-            self.b64decode(),
+            'data',
             name=cc().application_name.__radd__())
 
     def test_secret_backend_name(self):
