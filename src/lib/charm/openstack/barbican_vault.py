@@ -11,7 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import base64
 
 import charms_openstack.adapters
 import charms_openstack.charm
@@ -31,16 +30,14 @@ class BarbicanVaultCharm(charms_openstack.charm.OpenStackCharm):
     def install_ca_cert(self, ca_cert_data):
         """Install CA certificate.
 
-        Takes Base64 encoded data from caller and installs it building
-        filename from application name in Juju model.
+        Takes certificate data from caller and installs it building filename
+        from application name in Juju model.
 
-        :param ca_cert_data: Base64 encoded certificate data
+        :param ca_cert_data: Certificate data
         :type ca_cert_data: str
-        :
         """
         name = 'juju-' + self.configuration_class().application_name
-        ch_core.host.install_ca_cert(
-            base64.b64decode(ca_cert_data), name=name)
+        ch_core.host.install_ca_cert(ca_cert_data, name=name)
         self._installed_ca_name = (
             '/usr/local/share/ca-certificates/{}.crt'.format(name))
 
