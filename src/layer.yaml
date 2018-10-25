@@ -7,3 +7,9 @@ options:
     use_venv: True
     include_system_packages: True
 repo: https://github.com/openstack/charm-barbican-vault
+config:
+  deletes:
+    - debug
+    - verbose
+    - use-internal-endpoints
+    - use-syslog
