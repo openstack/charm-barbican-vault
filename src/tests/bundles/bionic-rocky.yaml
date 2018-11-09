@@ -1,19 +1,19 @@
 series: bionic
 relations:
-- - keystone
-  - mysql
-- - vault
-  - mysql
-- - barbican
-  - mysql
-- - barbican
-  - keystone
-- - barbican
-  - rabbitmq-server
-- - barbican
-  - barbican-vault
-- - barbican-vault
-  - vault
+- - mysql:shared-db
+  - keystone:shared-db
+- - mysql:shared-db
+  - vault:shared-db
+- - mysql:shared-db
+  - barbican:shared-db
+- - keystone:identity-service
+  - barbican:identity-service
+- - rabbitmq-server:amqp
+  - barbican:amqp
+- - barbican-vault:secrets
+  - barbican:secrets
+- - vault:secrets
+  - barbican-vault:secrets-storage
 applications:
   mysql:
     charm: cs:~openstack-charmers-next/percona-cluster
@@ -28,10 +28,10 @@ applications:
     charm: cs:~openstack-charmers-next/barbican
     num_units: 1
     options:
-      openstack-origin: cloud:bionic-rocky/proposed
+      openstack-origin: cloud:bionic-rocky
   barbican-vault:
     series: bionic
-    charm: barbican-vault
+    charm: ../../../barbican-vault
     num_units: 0
   rabbitmq-server:
     charm: cs:~openstack-charmers-next/rabbitmq-server
@@ -39,5 +39,3 @@ applications:
   vault:
     charm: cs:~openstack-charmers-next/vault
     num_units: 1
-    options:
-      totally-unsecure-auto-unlock: True
