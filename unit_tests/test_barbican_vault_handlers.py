@@ -73,8 +73,6 @@ class TestBarbicanVaultHandlers(test_utils.PatchHelper):
             'secrets-storage.connected')
         secrets_storage.request_secret_backend.assert_called_once_with(
             'charm-barbican-vault', isolated=False)
-        self.clear_flag.assert_called_once_with(
-            'secrets-storage.connected')
 
     def test_plugin_info_barbican_publish(self):
         barbican_vault_charm = self.patch_charm()
