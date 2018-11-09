@@ -23,6 +23,7 @@ class BarbicanVaultCharm(charms_openstack.charm.OpenStackCharm):
     name = 'barbican-vault'
     packages = ['python3-castellan']
     python_version = 3
+    required_relations = ['secrets-storage']
     adapters_class = charms_openstack.adapters.OpenStackRelationAdapters
 
     _installed_ca_name = None

@@ -1,5 +1,6 @@
 includes:
   - layer:openstack
+  - interface:juju-info
   - interface:vault-kv
   - interface:barbican-secrets
 options:

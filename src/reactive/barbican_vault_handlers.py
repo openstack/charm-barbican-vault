@@ -41,7 +41,7 @@ def secret_backend_vault_request():
     with charm.provide_charm_instance() as barbican_vault_charm:
         secrets_storage.request_secret_backend(
             barbican_vault_charm.secret_backend_name, isolated=False)
-    reactive.clear_flag('secrets-storage.connected')
+        barbican_vault_charm.assess_status()
 
 
 @reactive.when_all('endpoint.secrets.joined', 'secrets-storage.available',
