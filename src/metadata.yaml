@@ -1,11 +1,12 @@
 name: barbican-vault
-summary: OpenStack Barbican vault backend
+summary: Vault backend for OpenStack Barbican
 maintainer: OpenStack Charmers <openstack-charmers@lists.ubuntu.com>
-description: OpenStack Barbican vault backend
+description: Vault backend for OpenStack Barbican
 tags:
   - openstack
 series:
   - bionic
+  - cosmic
 subordinate: true
 provides:
   secrets:
