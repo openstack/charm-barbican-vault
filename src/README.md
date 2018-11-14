@@ -1,6 +1,12 @@
 # Overview
 
-This charm provides secrets storage in Vault to Barbican
+The Barbican-Vault charm provies a Vault backend for OpenStack Barbican
+
+OpenStack Rocky or later is required.
+
+This charm, when used with the Barbican Charm, provides a software-based
+secrets-as-a-service solution for an OpenStack Cloud.  In the future, other
+back-ends may be added.
 
 # Usage
 
