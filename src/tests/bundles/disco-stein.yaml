@@ -1,4 +1,4 @@
-series: cosmic
+series: disco
 relations:
 - - mysql:shared-db
   - keystone:shared-db
@@ -23,12 +23,12 @@ applications:
     num_units: 1
     options:
   barbican:
-    series: cosmic
+    series: disco
     charm: cs:~openstack-charmers-next/barbican
     num_units: 1
     options:
   barbican-vault:
-    series: cosmic
+    series: disco
     charm: ../../../barbican-vault
     num_units: 0
   rabbitmq-server:
