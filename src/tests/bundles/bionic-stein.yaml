@@ -1,4 +1,4 @@
-series: cosmic
+series: bionic
 relations:
 - - mysql:shared-db
   - keystone:shared-db
@@ -22,13 +22,15 @@ applications:
     charm: cs:~openstack-charmers-next/keystone
     num_units: 1
     options:
+      openstack-origin: cloud:bionic-stein
   barbican:
-    series: cosmic
+    series: bionic
     charm: cs:~openstack-charmers-next/barbican
     num_units: 1
     options:
+      openstack-origin: cloud:bionic-stein
   barbican-vault:
-    series: cosmic
+    series: bionic
     charm: ../../../barbican-vault
     num_units: 0
   rabbitmq-server:

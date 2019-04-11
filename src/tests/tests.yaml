@@ -3,7 +3,9 @@ smoke_bundles:
 - bionic-rocky
 gate_bundles:
 - bionic-rocky
+- bionic-stein
 - cosmic-rocky
+- disco-stein
 target_deploy_status:
   barbican-vault:
     workload-status: waiting
