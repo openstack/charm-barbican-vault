@@ -1,11 +1,10 @@
 charm_name: barbican-vault
 smoke_bundles:
-- bionic-rocky
-gate_bundles:
-- bionic-rocky
 - bionic-stein
-- cosmic-rocky
+gate_bundles:
 - disco-stein
+- bionic-stein
+- bionic-rocky
 target_deploy_status:
   barbican-vault:
     workload-status: waiting
