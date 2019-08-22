@@ -6,6 +6,7 @@ includes:
 options:
   basic:
     use_venv: True
+    include_system_packages: False
 repo: https://github.com/openstack/charm-barbican-vault
 config:
   deletes:
