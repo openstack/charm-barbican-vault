@@ -51,6 +51,13 @@ class TestRegisteredHooks(test_utils.TestRegisteredHooks):
 
 class TestBarbicanVaultHandlers(test_utils.PatchHelper):
 
+    def fake_hvac(self):
+        fake_exc = mock.MagicMock()
+        fake_exc.InvalidRequest = Exception
+        self.fake_hvac = mock.MagicMock()
+        self.fake_hvac.exceptions = fake_exc
+        return self.fake_hvac
+
     def patch_charm(self):
         barbican_vault_charm = mock.MagicMock()
         self.patch_object(handlers.charm, 'provide_charm_instance',
@@ -74,30 +81,60 @@ class TestBarbicanVaultHandlers(test_utils.PatchHelper):
         secrets_storage.request_secret_backend.assert_called_once_with(
             'charm-barbican-vault', isolated=False)
 
+    @mock.patch.object(handlers.vault_utils, 'retrieve_secret_id')
+    @mock.patch.object(handlers.reactive, 'endpoint_from_flag')
+    def test_get_secret_id(self, endpoint_from_flag, retrieve_secret_id):
+        with mock.patch.object(handlers, 'hvac', self.fake_hvac()):
+            endpoint_from_flag.all_unit_tokens = ['token1']
+            endpoint_from_flag.vault_url = 'https://foo.fl:8200'
+            retrieve_secret_id.return_value = 'big-secret'
+            self.assertEquals(handlers.get_secret_id(endpoint_from_flag,
+                                                     'old-secret'),
+                              'big-secret')
+
+    @mock.patch.object(handlers.vault_utils, 'retrieve_secret_id')
+    @mock.patch.object(handlers.reactive, 'endpoint_from_flag')
+    def test_get_secret_id_fail(self, endpoint_from_flag, retrieve_secret_id):
+        with mock.patch.object(handlers, 'hvac', self.fake_hvac()):
+            endpoint_from_flag.all_unit_tokens = ['token1']
+            endpoint_from_flag.vault_url = 'https://foo.fl:8200'
+
+            def fail(*args, **kwargs):
+                raise self.fake_hvac.exceptions.InvalidRequest
+
+            retrieve_secret_id.side_effect = fail
+            self.assertEquals(handlers.get_secret_id(endpoint_from_flag,
+                                                     'old-secret'),
+                              'old-secret')
+
     def test_plugin_info_barbican_publish(self):
         barbican_vault_charm = self.patch_charm()
         self.patch_object(handlers.reactive, 'endpoint_from_flag')
         barbican = mock.MagicMock()
+        secrets = mock.MagicMock()
         secrets_storage = mock.MagicMock()
-        self.endpoint_from_flag.side_effect = [barbican, secrets_storage]
-        self.patch_object(handlers.vault_utils, 'retrieve_secret_id')
+        self.endpoint_from_flag.side_effect = [barbican, secrets_storage,
+                                               secrets]
+        self.patch_object(handlers, 'get_secret_id')
+        self.get_secret_id.return_value = 'big-secret'
         self.patch_object(handlers.reactive, 'clear_flag')
 
         handlers.plugin_info_barbican_publish()
         self.endpoint_from_flag.assert_has_calls([
             mock.call('endpoint.secrets.joined'),
             mock.call('secrets-storage.available'),
+            mock.call('secrets.available'),
         ])
         vault_data = {
             'approle_role_id': secrets_storage.unit_role_id,
-            'approle_secret_id': self.retrieve_secret_id(),
+            'approle_secret_id': self.get_secret_id(),
             'vault_url': secrets_storage.vault_url,
             'kv_mountpoint': barbican_vault_charm.secret_backend_name,
             'ssl_ca_crt_file': barbican_vault_charm.installed_ca_name,
         }
         barbican_vault_charm.install_ca_cert.assert_called_once_with(
             secrets_storage.vault_ca)
-        barbican.publish_plugin_info.assert_called_once_with(
-            'vault', vault_data)
+        calls = [mock.call('vault', vault_data)]
+        barbican.publish_plugin_info.assert_has_calls(calls)
         self.clear_flag.assert_called_once_with(
             'endpoint.secrets-storage.changed')

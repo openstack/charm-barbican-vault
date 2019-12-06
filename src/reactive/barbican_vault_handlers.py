@@ -11,6 +11,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import hvac
+
 import charmhelpers.core as ch_core
 
 import charms.reactive as reactive
@@ -44,12 +46,44 @@ def secret_backend_vault_request():
         barbican_vault_charm.assess_status()
 
 
+def get_secret_id(secrets_storage, current_secret_id=None):
+    """Get tokens from relation and try to fetch secret-id from Vault api
+
+    Try all tokens until one succeeds. If all fail, return cached token
+    otherwise raise hvac.exceptions.InvalidRequest.
+    """
+    tokens = secrets_storage.all_unit_tokens
+    url = secrets_storage.vault_url
+    for i, token in enumerate(tokens):
+        try:
+            secret_id = vault_utils.retrieve_secret_id(url, token)
+            return secret_id
+        except hvac.exceptions.InvalidRequest:
+            if i == len(tokens) - 1:
+                if current_secret_id:
+                    return current_secret_id
+                else:
+                    raise
+            else:
+                pass
+
+
 @reactive.when_all('endpoint.secrets.joined', 'secrets-storage.available',
                    'endpoint.secrets-storage.changed')
 def plugin_info_barbican_publish():
     barbican = reactive.endpoint_from_flag('endpoint.secrets.joined')
     secrets_storage = reactive.endpoint_from_flag(
         'secrets-storage.available')
+
+    # fetch current secret-id, if any, from relation with barbican principle
+    current_secret_id = None
+    secrets = reactive.endpoint_from_flag('secrets.available')
+    if secrets:
+        for relation in secrets.relations:
+            data = relation.to_publish.get('data')
+            if data and data.get('approle_secret_id'):
+                current_secret_id = data.get('approle_secret_id')
+
     with charm.provide_charm_instance() as barbican_vault_charm:
         if secrets_storage.vault_ca:
             ch_core.hookenv.log('Installing vault CA certificate')
@@ -57,9 +91,7 @@ def plugin_info_barbican_publish():
         ch_core.hookenv.log('Retrieving secret-id from vault ({})'
                             .format(secrets_storage.vault_url),
                             level=ch_core.hookenv.INFO)
-        secret_id = vault_utils.retrieve_secret_id(
-            secrets_storage.vault_url,
-            secrets_storage.unit_token)
+        secret_id = get_secret_id(secrets_storage, current_secret_id)
         vault_data = {
             'approle_role_id': secrets_storage.unit_role_id,
             'approle_secret_id': secret_id,
