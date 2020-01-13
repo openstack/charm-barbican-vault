@@ -14,8 +14,11 @@
 import hvac
 
 
+SYSTEM_CA_BUNDLE = '/etc/ssl/certs/ca-certificates.crt'
+
+
 def retrieve_secret_id(url, token):
-    client = hvac.Client(url=url, token=token)
+    client = hvac.Client(url=url, verify=SYSTEM_CA_BUNDLE, token=token)
     # workaround for issue where callng `client.unwrap(token)` results in
     # "error decrementing wrapping token's use-count: invalid token entry
     #  provided for use count decrementing"

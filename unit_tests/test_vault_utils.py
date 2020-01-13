@@ -32,3 +32,7 @@ class TestVaultUtils(test_utils.PatchHelper):
         self.assertEqual(
             vault_utils.retrieve_secret_id('url', 'token'), 'FAKE_SECRET_ID')
         hvac_client._post.assert_called_with('/v1/sys/wrapping/unwrap')
+        self.hvac.Client.assert_called_once_with(
+            token='token',
+            url='url',
+            verify=vault_utils.SYSTEM_CA_BUNDLE)
