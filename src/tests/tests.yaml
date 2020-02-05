@@ -3,7 +3,6 @@ smoke_bundles:
 - bionic-train
 gate_bundles:
 - bionic-train
-- disco-stein
 - bionic-stein
 - bionic-rocky
 target_deploy_status:

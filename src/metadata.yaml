@@ -6,7 +6,6 @@ tags:
   - openstack
 series:
   - bionic
-  - disco
   - eoan
 subordinate: true
 provides:
