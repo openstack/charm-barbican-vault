@@ -1,1 +1,3 @@
 hvac
+
+git+https://opendev.org/openstack/charms.openstack.git@stable/20.02#egg=charms.openstack
