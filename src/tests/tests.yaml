@@ -2,6 +2,8 @@ charm_name: barbican-vault
 smoke_bundles:
 - bionic-train
 gate_bundles:
+- focal-ussuri
+- bionic-ussuri
 - bionic-train
 - bionic-stein
 - bionic-rocky
@@ -16,3 +18,6 @@ configure:
 - zaza.openstack.charm_tests.vault.setup.basic_setup
 tests:
 - zaza.openstack.charm_tests.barbican_vault.tests.BarbicanVaultUnsealVault
+tests_options:
+  force_deploy:
+    - focal-ussuri
