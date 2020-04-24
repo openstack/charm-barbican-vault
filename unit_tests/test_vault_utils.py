@@ -25,9 +25,7 @@ class TestVaultUtils(test_utils.PatchHelper):
         self.patch_object(vault_utils, 'hvac')
         hvac_client = mock.MagicMock()
         self.hvac.Client.return_value = hvac_client
-        response = mock.MagicMock()
-        response.status_code = 200
-        response.json.return_value = {'data': {'secret_id': 'FAKE_SECRET_ID'}}
+        response = {'data': {'secret_id': 'FAKE_SECRET_ID'}}
         hvac_client._post.return_value = response
         self.assertEqual(
             vault_utils.retrieve_secret_id('url', 'token'), 'FAKE_SECRET_ID')

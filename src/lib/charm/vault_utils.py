@@ -23,6 +23,5 @@ def retrieve_secret_id(url, token):
     # "error decrementing wrapping token's use-count: invalid token entry
     #  provided for use count decrementing"
     response = client._post('/v1/sys/wrapping/unwrap')
-    if response.status_code == 200:
-        data = response.json()
-        return data['data']['secret_id']
+    if response.get("data"):
+        return response['data']['secret_id']
