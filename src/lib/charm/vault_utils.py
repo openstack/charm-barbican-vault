@@ -17,11 +17,19 @@ import hvac
 SYSTEM_CA_BUNDLE = '/etc/ssl/certs/ca-certificates.crt'
 
 
+# TODO: There is a version in  charmhelpers.contrib.openstack.vaultlocker
+# that does everything but the System CA bundle. Update that helper to allow
+# a CA bundle for verify.
 def retrieve_secret_id(url, token):
-    client = hvac.Client(url=url, verify=SYSTEM_CA_BUNDLE, token=token)
+    # hvac 0.10.1 changed default adapter to JSONAdapter
+    client = hvac.Client(
+        url=url, token=token,
+        adapter=hvac.adapters.Request,
+        verify=SYSTEM_CA_BUNDLE)
     # workaround for issue where callng `client.unwrap(token)` results in
     # "error decrementing wrapping token's use-count: invalid token entry
     #  provided for use count decrementing"
     response = client._post('/v1/sys/wrapping/unwrap')
-    if response.get("data"):
-        return response['data']['secret_id']
+    if response.status_code == 200:
+        data = response.json()
+        return data['data']['secret_id']

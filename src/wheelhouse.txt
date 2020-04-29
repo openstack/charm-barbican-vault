@@ -1,1 +1,2 @@
-hvac
+# Pin hvac for a consistent response type
+hvac==0.10.1

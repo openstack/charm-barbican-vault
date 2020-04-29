@@ -105,3 +105,4 @@ def plugin_info_barbican_publish():
                             level=ch_core.hookenv.INFO)
         barbican.publish_plugin_info('vault', vault_data)
         reactive.clear_flag('endpoint.secrets-storage.changed')
+        barbican_vault_charm.assess_status()
