@@ -1,0 +1,16 @@
+applications:
+  vault:
+    options:
+        vip: '{{ TEST_VIP00 }}'
+  barbican:
+    options:
+        vip: '{{ TEST_VIP01 }}'
+  vault-hacluster:
+    charm: cs:~openstack-charmers-next/hacluster
+  barbican-hacluster:
+    charm: cs:~openstack-charmers-next/hacluster
+relations:
+- - vault:ha
+  - vault-hacluster:ha
+- - barbican:ha
+  - barbican-hacluster:ha
