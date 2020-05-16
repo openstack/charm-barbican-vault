@@ -14,3 +14,6 @@ config:
     - verbose
     - use-internal-endpoints
     - use-syslog
+    - ssl_ca
+    - ssl_cert
+    - ssl_key
