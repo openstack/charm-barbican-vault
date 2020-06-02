@@ -3,11 +3,12 @@ summary: Vault backend for OpenStack Barbican
 maintainer: OpenStack Charmers <openstack-charmers@lists.ubuntu.com>
 description: Vault backend for OpenStack Barbican
 tags:
-  - openstack
+- openstack
 series:
-  - bionic
-  - eoan
-  - focal
+- bionic
+- eoan
+- focal
+- groovy
 subordinate: true
 provides:
   secrets:
