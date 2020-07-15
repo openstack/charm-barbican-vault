@@ -7,6 +7,9 @@ gate_bundles:
 - bionic-train
 - bionic-stein
 - bionic-rocky
+dev_bundles:
+- focal-victoria
+- groovy-victoria
 target_deploy_status:
   barbican-vault:
     workload-status: waiting
@@ -18,3 +21,6 @@ configure:
 - zaza.openstack.charm_tests.vault.setup.basic_setup
 tests:
 - zaza.openstack.charm_tests.barbican_vault.tests.BarbicanVaultUnsealVault
+tests_options:
+  force_deploy:
+    - groovy-victoria
