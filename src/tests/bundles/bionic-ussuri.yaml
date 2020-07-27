@@ -36,4 +36,4 @@ applications:
     num_units: 1
   vault:
     charm: cs:~openstack-charmers-next/vault
-    num_units: 3
+    num_units: 1

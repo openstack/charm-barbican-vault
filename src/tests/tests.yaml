@@ -18,6 +18,3 @@ configure:
 - zaza.openstack.charm_tests.vault.setup.basic_setup
 tests:
 - zaza.openstack.charm_tests.barbican_vault.tests.BarbicanVaultUnsealVault
-tests_options:
-  force_deploy:
-    - focal-ussuri
