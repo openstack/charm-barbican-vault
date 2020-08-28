@@ -2,13 +2,13 @@ charm_name: barbican-vault
 smoke_bundles:
 - bionic-train
 gate_bundles:
+- focal-victoria
 - focal-ussuri
 - bionic-ussuri
 - bionic-train
 - bionic-stein
 - bionic-rocky
 dev_bundles:
-- focal-victoria
 - groovy-victoria
 target_deploy_status:
   barbican-vault:
