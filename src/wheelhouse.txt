@@ -1,2 +1,6 @@
 # Pin hvac for a consistent response type
 hvac==0.10.1
+
+git+https://opendev.org/openstack/charms.openstack.git@stable/20.10#egg=charms.openstack
+
+git+https://github.com/juju/charm-helpers.git@stable/20.10#egg=charmhelpers
