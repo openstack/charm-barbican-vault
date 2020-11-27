@@ -119,8 +119,7 @@ class TestBarbicanVaultHandlers(test_utils.PatchHelper):
         handlers.plugin_info_barbican_publish()
         self.endpoint_from_flag.assert_has_calls([
             mock.call('endpoint.secrets.joined'),
-            mock.call('secrets-storage.available'),
-            mock.call('secrets.available'),
+            mock.call('secrets-storage.available')
         ])
         vault_data = {
             'approle_role_id': secrets_storage.unit_role_id,

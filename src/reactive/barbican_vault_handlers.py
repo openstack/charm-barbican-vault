@@ -77,9 +77,8 @@ def plugin_info_barbican_publish():
 
     # fetch current secret-id, if any, from relation with barbican principle
     current_secret_id = None
-    secrets = reactive.endpoint_from_flag('secrets.available')
-    if secrets:
-        for relation in secrets.relations:
+    if barbican:
+        for relation in barbican.relations:
             data = relation.to_publish.get('data')
             if data and data.get('approle_secret_id'):
                 current_secret_id = data.get('approle_secret_id')
