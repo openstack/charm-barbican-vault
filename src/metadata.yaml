@@ -8,6 +8,7 @@ series:
 - bionic
 - focal
 - groovy
+- hirsute
 subordinate: true
 provides:
   secrets:
