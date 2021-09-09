@@ -6,7 +6,11 @@
       # - charm-functional-jobs
     check:
       jobs:
+      - impish-xena:
+          voting: false
       - hirsute-wallaby
+      - focal-xena:
+          voting: false
       - groovy-victoria
       - focal-wallaby
       - focal-victoria

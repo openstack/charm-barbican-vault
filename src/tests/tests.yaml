@@ -3,6 +3,7 @@ smoke_bundles:
 - focal-ussuri
 gate_bundles:
 - groovy-victoria
+- focal-xena
 - focal-wallaby
 - focal-victoria
 - focal-ussuri
@@ -10,6 +11,7 @@ gate_bundles:
 - bionic-train
 - bionic-stein
 dev_bundles:
+- impish-xena
 - hirsute-wallaby
 - bionic-rocky
 target_deploy_status:
@@ -26,3 +28,5 @@ tests:
 tests_options:
   force_deploy:
     - hirsute-wallaby
+    - groovy-victoria
+    - impish-xena
