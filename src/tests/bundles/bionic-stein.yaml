@@ -16,26 +16,31 @@ relations:
   - barbican-vault:secrets-storage
 applications:
   mysql:
-    charm: cs:~openstack-charmers-next/percona-cluster
+    charm: cs:~openstack-charmers/percona-cluster
     num_units: 1
+    channel: candidate
   keystone:
-    charm: cs:~openstack-charmers-next/keystone
+    charm: cs:~openstack-charmers/keystone
     num_units: 1
     options:
       openstack-origin: cloud:bionic-stein
+    channel: candidate
   barbican:
     series: bionic
-    charm: cs:~openstack-charmers-next/barbican
+    charm: cs:~openstack-charmers/barbican
     num_units: 3
     options:
       openstack-origin: cloud:bionic-stein
+    channel: candidate
   barbican-vault:
     series: bionic
     charm: ../../../barbican-vault
     num_units: 0
   rabbitmq-server:
-    charm: cs:~openstack-charmers-next/rabbitmq-server
+    charm: cs:~openstack-charmers/rabbitmq-server
     num_units: 1
+    channel: candidate
   vault:
-    charm: cs:~openstack-charmers-next/vault
+    charm: cs:~openstack-charmers/vault
     num_units: 1
+    channel: candidate
