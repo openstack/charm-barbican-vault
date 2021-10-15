@@ -116,7 +116,7 @@
       "type": "python_module",
       "package": "requests",
       "vcs": null,
-      "version": "2.26.0"
+      "version": "2.25.1"
     },
     {
       "type": "python_module",
@@ -160,7 +160,7 @@
       "type": "python_module",
       "package": "idna",
       "vcs": null,
-      "version": "3.2"
+      "version": "2.10"
     },
     {
       "type": "python_module",
