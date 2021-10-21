@@ -4,7 +4,6 @@ applications:
         vip: '{{ TEST_VIP01 }}'
   barbican-hacluster:
     charm: cs:~openstack-charmers/hacluster
-    channel: candidate
 relations:
 - - barbican:ha
   - barbican-hacluster:ha
