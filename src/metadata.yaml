@@ -5,10 +5,7 @@ description: Vault backend for OpenStack Barbican
 tags:
 - openstack
 series:
-- bionic
 - focal
-- groovy
-- hirsute
 - impish
 subordinate: true
 provides:

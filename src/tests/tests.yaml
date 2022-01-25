@@ -1,33 +1,24 @@
 charm_name: barbican-vault
 smoke_bundles:
-- focal-ussuri
+- focal-yoga
 gate_bundles:
-- bionic-stein
-- bionic-ussuri
-- focal-ussuri
-- focal-victoria
-- focal-wallaby
 - focal-xena
-- hirsute-wallaby
 - impish-xena
 dev_bundles:
-- bionic-rocky
-- bionic-train
 - focal-yoga
 - jammy-yoga
 target_deploy_status:
   barbican-vault:
     workload-status: waiting
-    workload-status-message: "'secrets-storage' incomplete"
+    workload-status-message-prefix: "'secrets-storage' incomplete"
   vault:
     workload-status: blocked
-    workload-status-message: Vault needs to be initialized
+    workload-status-message-prefix: Vault needs to be initialized
 configure:
 - zaza.openstack.charm_tests.vault.setup.basic_setup
 tests:
 - zaza.openstack.charm_tests.barbican_vault.tests.BarbicanVaultUnsealVault
 tests_options:
   force_deploy:
-    - hirsute-wallaby
     - impish-xena
     - jammy-yoga

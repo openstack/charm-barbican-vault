@@ -3,7 +3,8 @@ applications:
     options:
         vip: '{{ TEST_VIP01 }}'
   barbican-hacluster:
-    charm: cs:~openstack-charmers-next/hacluster
+    charm: ch:hacluster
+    channel: latest/edge
 relations:
 - - barbican:ha
   - barbican-hacluster:ha
