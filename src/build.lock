@@ -29,8 +29,8 @@
       "item": "barbican-vault",
       "url": null,
       "vcs": null,
-      "branch": "refs/heads/21.10-updates\nrefs/heads/master",
-      "commit": "refs/heads/21.10-updates\nrefs/heads/master"
+      "branch": "refs/heads/master",
+      "commit": "refs/heads/master"
     },
     {
       "type": "layer",
@@ -144,16 +144,10 @@
     },
     {
       "type": "python_module",
-      "package": "Tempita",
-      "vcs": null,
-      "version": "0.4"
-    },
-    {
-      "type": "python_module",
       "package": "charms.openstack",
       "url": "git+https://github.com/openstack/charms.openstack.git",
-      "branch": "refs/heads/stable/21.10",
-      "version": "10627ee5f991c268f174d6d100e218a0e1867af1",
+      "branch": "refs/heads/stable/xena",
+      "version": "efd2fa19678d0e26878d80227d9d1f68abea6496",
       "vcs": "git"
     },
     {
@@ -184,8 +178,8 @@
       "type": "python_module",
       "package": "charmhelpers",
       "url": "git+https://github.com/juju/charm-helpers.git",
-      "branch": "refs/heads/stable/21.10",
-      "version": "26efcd0da51d580f68ead2ca13c38f58766f8a14",
+      "branch": "refs/heads/stable/xena",
+      "version": "d2b093b715ff0a328e548265a82119562ce6c5e2",
       "vcs": "git"
     },
     {
