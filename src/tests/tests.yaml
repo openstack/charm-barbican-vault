@@ -2,18 +2,10 @@ charm_name: barbican-vault
 smoke_bundles:
 - focal-ussuri
 gate_bundles:
-- groovy-victoria
-- focal-xena
-- focal-wallaby
-- focal-victoria
 - focal-ussuri
 - bionic-ussuri
 - bionic-train
-- bionic-stein
-dev_bundles:
-- impish-xena
-- hirsute-wallaby
-- bionic-rocky
+dev_bundles: []
 target_deploy_status:
   barbican-vault:
     workload-status: waiting
@@ -26,7 +18,4 @@ configure:
 tests:
 - zaza.openstack.charm_tests.barbican_vault.tests.BarbicanVaultUnsealVault
 tests_options:
-  force_deploy:
-    - hirsute-wallaby
-    - groovy-victoria
-    - impish-xena
+  force_deploy: []
