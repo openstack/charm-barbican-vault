@@ -5,8 +5,8 @@ description: Vault backend for OpenStack Barbican
 tags:
 - openstack
 series:
-- focal
 - jammy
+- kinetic
 subordinate: true
 provides:
   secrets:
