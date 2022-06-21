@@ -6,10 +6,6 @@ tags:
 - openstack
 series:
 - bionic
-- focal
-- groovy
-- hirsute
-- impish
 subordinate: true
 provides:
   secrets:
