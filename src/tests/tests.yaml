@@ -1,12 +1,12 @@
 charm_name: barbican-vault
 smoke_bundles:
-- jammy-yoga
-gate_bundles:
-- jammy-yoga
-dev_bundles:
-- jammy-yoga
 - jammy-zed
+gate_bundles:
+- jammy-zed
+dev_bundles:
+- jammy-antelope
 - kinetic-zed
+- lunar-antelope
 target_deploy_status:
   barbican-vault:
     workload-status: waiting
@@ -21,3 +21,4 @@ tests:
 tests_options:
   force_deploy:
     - kinetic-zed
+    - lunar-antelope
