@@ -5,7 +5,6 @@ gate_bundles:
 - jammy-zed
 dev_bundles:
 - jammy-antelope
-- kinetic-zed
 - lunar-antelope
 target_deploy_status:
   barbican-vault:
@@ -20,5 +19,4 @@ tests:
 - zaza.openstack.charm_tests.barbican_vault.tests.BarbicanVaultUnsealVault
 tests_options:
   force_deploy:
-    - kinetic-zed
     - lunar-antelope
