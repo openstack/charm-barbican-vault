@@ -1,11 +1,12 @@
 charm_name: barbican-vault
 smoke_bundles:
-- jammy-zed
-gate_bundles:
-- jammy-zed
-dev_bundles:
 - jammy-antelope
+gate_bundles:
+- jammy-antelope
+dev_bundles:
+- jammy-bobcat
 - lunar-antelope
+- mantic-bobcat
 target_deploy_status:
   barbican-vault:
     workload-status: waiting
@@ -20,3 +21,4 @@ tests:
 tests_options:
   force_deploy:
     - lunar-antelope
+    - mantic-bobcat
