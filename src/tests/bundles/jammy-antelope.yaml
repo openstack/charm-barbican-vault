@@ -51,7 +51,7 @@ applications:
       openstack-origin: *openstack-origin
     to:
       - '3'
-    channel: latest/edge
+    channel: 2024.1/edge
 
   barbican:
     charm: ch:barbican
@@ -62,7 +62,7 @@ applications:
       - '4'
       - '5'
       - '6'
-    channel: latest/edge
+    channel: 2024.1/edge
 
   barbican-vault:
     charm: ../../../barbican-vault.charm
