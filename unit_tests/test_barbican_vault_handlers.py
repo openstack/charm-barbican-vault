@@ -85,9 +85,9 @@ class TestBarbicanVaultHandlers(test_utils.PatchHelper):
             endpoint_from_flag.all_unit_tokens = ['token1']
             endpoint_from_flag.vault_url = 'https://foo.fl:8200'
             retrieve_secret_id.return_value = 'big-secret'
-            self.assertEquals(handlers.get_secret_id(endpoint_from_flag,
-                                                     'old-secret'),
-                              'big-secret')
+            self.assertEqual(handlers.get_secret_id(endpoint_from_flag,
+                                                    'old-secret'),
+                             'big-secret')
 
     @mock.patch.object(handlers.vault_utils, 'retrieve_secret_id')
     @mock.patch.object(handlers.reactive, 'endpoint_from_flag')
@@ -100,9 +100,9 @@ class TestBarbicanVaultHandlers(test_utils.PatchHelper):
                 raise self.fake_hvac.exceptions.InvalidRequest
 
             retrieve_secret_id.side_effect = fail
-            self.assertEquals(handlers.get_secret_id(endpoint_from_flag,
-                                                     'old-secret'),
-                              'old-secret')
+            self.assertEqual(handlers.get_secret_id(endpoint_from_flag,
+                                                    'old-secret'),
+                             'old-secret')
 
     def test_plugin_info_barbican_publish(self):
         barbican_vault_charm = self.patch_charm()
