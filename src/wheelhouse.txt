@@ -4,6 +4,8 @@ hvac==0.10.1
 # Add hatchling and calver, needed by urllib3
 hatchling<2,>=1.6.0
 calver
+hatch-vcs>=0.4.0,<0.6.0
+setuptools-scm<9,>=8
 
 git+https://github.com/openstack/charms.openstack.git#egg=charms.openstack
 
