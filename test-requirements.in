@@ -4,7 +4,7 @@
 #     https://github.com/openstack-charmers/release-tools
 #
 pyparsing<3.0.0  # aodhclient is pinned in zaza and needs pyparsing < 3.0.0, but cffi also needs it, so pin here.
-setuptools
+setuptools<82.0.0
 stestr>=2.2.0
 
 # Dependency of stestr. Workaround for
@@ -35,3 +35,4 @@ cryptography<3.4 # vault, keystone-saml-mellon
 lxml             # keystone-saml-mellon
 hvac             # vault, barbican-vault
 psutil           # cinder-lvm
+flake8==7.1.1
