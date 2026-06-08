@@ -65,7 +65,7 @@ applications:
     channel: 2023.2/edge
 
   barbican-vault:
-    charm: ../../../barbican-vault.charm
+    charm: ../../../barbican-vault_ubuntu@22.04-amd64.charm
     num_units: 0
 
   rabbitmq-server:
