@@ -6,7 +6,6 @@ gate_bundles:
 dev_bundles:
 - jammy-yoga
 - jammy-zed
-- kinetic-zed
 target_deploy_status:
   barbican-vault:
     workload-status: waiting
@@ -18,6 +17,3 @@ configure:
 - zaza.openstack.charm_tests.vault.setup.basic_setup
 tests:
 - zaza.openstack.charm_tests.barbican_vault.tests.BarbicanVaultUnsealVault
-tests_options:
-  force_deploy:
-    - kinetic-zed
