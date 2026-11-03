@@ -80,7 +80,7 @@ applications:
     num_units: 1
     to:
       - '8'
-    channel: latest/edge
+    channel: 1.8/stable
 
 relations:
 
